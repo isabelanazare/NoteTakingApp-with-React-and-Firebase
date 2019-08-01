@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway&display=swap');
+
+body{
+    /*background-color:rgb(81, 195, 230);*/
+    font-family: "Raleway";}
+header {
+    background-color:rgb(18,79,119);
+    color:#fff;
+    padding:20px;
+    text-align:center;
+}
+.main-content{
+    background-color:rgb(81, 195, 230);
+    height:100%;
+    position:absolute;
+    width:100%;
+}
+.main-content ul{
+    text-align:center;
+    list-style:none;
+}
+.main-content ul li{
+    padding:20px;
+    background-color:rgb(83, 154, 202);
+    border-radius:20px;
+    margin:10px 0;
+    color:#fff;
+    width:100%;
+    position:relative;
+}
+.noteTitle{
+    font-size:25px;
+    font-weight: bold;
+    letter-spacing: 3px;
+
+}
+footer{
+    background-color:rgb(18,79,119);
+    color:#fff;
+    padding:20px;
+    text-align:center;
+    position:fixed;
+    bottom:0;
+    width:100%;
+    height:150px;
+    text-align:center;
+}
+footer form input,
+footer form textarea{
+    border:none;
+    border-bottom:2px solid #fff;
+    background-color:rgb(18,79,119);
+    outline:none;
+    color:#fff;
+    font-size:14px;
+    display:block;
+    text-align:center;
+    width:200px;
+    margin:0 auto;    
+}
+footer form textarea{
+    height:50px;
+}
+.myButton {
+    padding:10px;
+    position:relative;
+    left:20px;
+    margin-right:20px;
+    color:white;
+    font-size:14px;
+    font-weight:bold;
+    background-color:rgb(78, 14, 226);
+    border:none;
+    margin-top:20px;
+    border-radius:30px;
+    font-family: "Raleway";
+    letter-spacing: 2.5px;
+}
