@@ -2,22 +2,29 @@
 
 body{
     /*background-color:rgb(81, 195, 230);*/
-    font-family: "Raleway";}
+    font-family: "Raleway";
+    overflow-x:hidden;
+}
 header {
     background-color:rgb(18,79,119);
     color:#fff;
     padding:20px;
     text-align:center;
+    width: 100%;
+    
 }
 .main-content{
     background-color:rgb(81, 195, 230);
-    height:100%;
+    height:auto;
     position:absolute;
     width:100%;
+    min-height: 400px;
+    margin-bottom: 180px;
 }
 .main-content ul{
     text-align:center;
     list-style:none;
+    padding: 0;
 }
 .main-content ul li{
     padding:20px;

@@ -1,4 +1,5 @@
 import React,{Component} from 'react';
+import Firebase from "../Config/config";
 
 class NoteTaking extends Component {
 
@@ -11,33 +12,79 @@ class NoteTaking extends Component {
             showEnterButton:true
         }
         this.enterData=this.enterData.bind(this);
+        this.addNote=this.addNote.bind(this);
+
         this.state.act=0;
+
+        this.db = Firebase.database().ref().child('notes');
     }
 
+    componentDidMount(){
+        const previousNotes = this.state.items;
+
+        this.db.on('child_added', snap => {
+            previousNotes.push({
+                id:snap.key,
+                title: snap.val().title,
+                note: snap.val().note,
+            })
+
+            this.setState(
+                {
+                    items: previousNotes
+                })
+        })
+    
+  
+        this.db.on('child_removed', snap => {
+            for(var i=0; i< previousNotes.length;i++){
+                if(previousNotes[i].id === snap.key){
+                    previousNotes.splice (i,1);
+                    break;
+                }
+            }
+            this.setState(
+                {
+                    items: previousNotes
+                })
+        })
+
+        this.db.on('child_changed', snap => {
+          previousNotes.find(x=>x.id===snap.key).title=snap.val().title;
+          previousNotes.find(x=>x.id===snap.key).note=snap.val().note;
+        
+            this.setState(
+                {
+                    items: previousNotes
+                })
+        })
+
+    }
+    addNote(title,note){      
+        this.db.push().set({title:title,
+            note:note}); 
+    }
+    deleteNote(value){
+        this.db.child(value.id.toString()).remove();
+    }
+
+    updateNote(id,title,note){
+        this.db.child(id.toString()).update({'title': title,'note':note});
+    }
     enterData(event){
-        if(this.state.act===0){      //add
+        if(this.state.act===0)
+        {   //add
         if(this.theTitle.value !== "")
-        {
-            var newItem={
-                title:this.theTitle.value,
-                note:this.theNote.value
-            };
-        }
-        this.setState((prevState)=>{
-            return{
-                items:prevState.items.concat(newItem)
-            };
-        });
-    }
-    else {                          //update
-        let index=this.state.index;
-        let items=this.state.items;
-        items[index].title=this.theTitle.value;
-        items[index].note=this.theNote.value;
-
+          {   
+            this.addNote(this.theTitle.value,this.theNote.value);
+         }
+      }
+    else {
+           //update
+        this.updateNote(this.state.index,this.theTitle.value,this.theNote.value);
+        
         this.setState(
             {
-                items:items,
                 act:0,
                 showUpdateButton:false,
                 showEnterButton:true
@@ -51,20 +98,11 @@ class NoteTaking extends Component {
         event.preventDefault();
     }
 
-    deleteNote = (i) => {
-        let datas=this.state.items;
-        datas.splice(i,1);
-        this.setState({
-            datas:datas
-        })
-    }
-
-    editNote = (i) => {
-        let data = this.state.items[i];
+    updateButton (val) {
 
         this.setState({
             act:1,
-            index:i,
+            index:val.id,
             showUpdateButton:true,
             showEnterButton:false
         }
@@ -84,8 +122,8 @@ class NoteTaking extends Component {
             <li key={i} className="myList">
             
             <div className="noteTitle">{val.title}</div> <p>{val.note}</p>
-                <button onClick={()=>this.deleteNote(i)} className="myButton">delete</button>
-                 <button onClick={()=>this.editNote(i)} className="myButton">edit</button>
+                <button onClick={()=>this.deleteNote(val)} className="myButton">delete</button>
+                 <button onClick={()=>this.updateButton(val)} className="myButton">edit</button>
                 </li>)}
 
 

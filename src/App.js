@@ -1,8 +1,8 @@
 import React from 'react';
 import NoteTaking from './component/noteTaking';
 import './component/noteTaking.css';
-import { logicalExpression } from '@babel/types';
 import LoginForm from './login/login'
+
 
 const Welcome = ({user, onSignOut})=> {
 
@@ -25,6 +25,7 @@ class App extends React.Component {
     this.state = {
       user: null
     }
+    
     this.signIn = this.signIn.bind(this);
   }
   
